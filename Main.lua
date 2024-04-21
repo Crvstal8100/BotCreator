@@ -185,11 +185,11 @@ end
 function BotCreator:CreateAction(Options)
     Options = Options or {}
 
-    if Options and typeof(Options) == "table" and Options["Loop"] and typeof(Options["Loop"]) == "string" then
-        if not Information["Loops"][Options["Loop"]] then
+    if Options and typeof(Options) == "table" and Options["Action"] and typeof(Options["Action"]) == "string" then
+        if not Information["Loops"][Options["Action"]] then
 
-            Information["Loops"][Options["Loop"]] = game:GetService("RunService").RenderStepped:Connect(function(deltaTime)
-                if table.find(Information["Action"], Options["Loop"]) then
+            Information["Loops"][Options["Action"]] = game:GetService("RunService").RenderStepped:Connect(function(deltaTime)
+                if table.find(Information["Action"], Options["Action"]) then
                     pcall(Options["Callback"], {["Owner"] = Information["Owner"], ["Stand"] = Information["Stand"]}) 
                 end
             end)
@@ -197,9 +197,9 @@ function BotCreator:CreateAction(Options)
             local options
         
             function options:Delete()
-                if Information["Loops"][Options["Loop"]] then
-                    Information["Loops"][Options["Loop"]]:Disconnect()
-                    Information["Loops"][Options["Loop"]] = nil 
+                if Information["Loops"][Options["Action"]] then
+                    Information["Loops"][Options["Action"]]:Disconnect()
+                    Information["Loops"][Options["Action"]] = nil 
                 end
             end
 
