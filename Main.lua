@@ -122,18 +122,6 @@ local function OnChatted(message, speaker)
     end
 end
 
-for i, v in pairs(Players:GetPlayers()) do
-    ChatListener:Listen(v, OnChatted)
-end
-
-Players.PlayerAdded:Connect(function(player)
-    ChatListener:Listen(player, OnChatted)
-end)
-
-Players.PlayerRemoving:Connect(function(player)
-    ChatListener:StopListening(player)
-end)
-
 function BotCreator:AddAction(Options)
     if not table.find(Information["Action"], Options["Action"]) then
         table.insert(Information["Action"], Options["Action"])
