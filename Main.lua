@@ -5,7 +5,7 @@ local Information = {
     Commands = {},
     Owner = nil,
     Stand = nil,
-    Action = getgenv().Settings["Action"]
+    Action = getgenv().BC["Action"]
 }
 
 local ChatListener = loadstring(game:HttpGet("https://raw.githubusercontent.com/Crvstal8100/ChatListener/main/Main.lua", true))
