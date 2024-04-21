@@ -4,19 +4,19 @@ local Information = {
     Loops = {},
     Commands = {},
     Owner = nil,
-    Stand = nil,
-    Action = getgenv().BC["Action"]
+    Bot = nil,
+    Action = getgenv().Settings["Action"]
 }
 
 local ChatListener = loadstring(game:HttpGet("https://raw.githubusercontent.com/Crvstal8100/ChatListener/main/Main.lua", true))()
 
 local Players = game:GetService("Players")
 
-Information["Stand"] = game:GetService("Players").LocalPlayer
+Information["Bot"] = game:GetService("Players").LocalPlayer
 
 for i, v in pairs(Players:GetPlayers()) do
     if string.find(getgenv().BC["Owner"], v.Name) or string.find(getgenv().BC["Owner"], v.UserId) then
-        if Information["Stand"] == v then
+        if Information["Bot"] == v then
             v:Kick("You've executed on the wrong account.")
         end
 
@@ -27,7 +27,7 @@ end
 Players.PlayerAdded:Connect(function(player)
     if string.find(getgenv().BC["Owner"], player.Name) or string.find(getgenv().BC["Owner"], player.UserId) then
         if Information["Owner"] ~= player then
-            if Information["Stand"] == player then
+            if Information["Bot"] == player then
                 player:Kick("You've executed on the wrong account.")
             end
     
@@ -82,7 +82,7 @@ local function OnChatted(message, speaker)
                     if string.lower(command) == string.lower(i) then
                         table.remove(messageArguments, 1)
 
-                        pcall(v["Callback"], {["Owner"] = Information["Owner"], ["Stand"] = Information["Stand"], ["Arguments"] = messageArguments})
+                        pcall(v["Callback"], {["Owner"] = Information["Owner"], ["Bot"] = Information["Bot"], ["Arguments"] = messageArguments})
                     else
                         if v["Aliases"] then
                             if typeof(v["Aliases"]) == "table" then
@@ -90,7 +90,7 @@ local function OnChatted(message, speaker)
                                     if string.lower(command) == string.lower(a) then
                                         table.remove(messageArguments, 1)
         
-                                        pcall(v["Callback"], {["Owner"] = Information["Owner"], ["Stand"] = Information["Stand"], ["Arguments"] = messageArguments})
+                                        pcall(v["Callback"], {["Owner"] = Information["Owner"], ["Bot"] = Information["Bot"], ["Arguments"] = messageArguments})
                                         break
                                     end
                                 end
@@ -101,7 +101,7 @@ local function OnChatted(message, speaker)
                     if command == i then
                         table.remove(messageArguments, 1)
 
-                        pcall(v["Callback"], {["Owner"] = Information["Owner"], ["Stand"] = Information["Stand"], ["Arguments"] = messageArguments})
+                        pcall(v["Callback"], {["Owner"] = Information["Owner"], ["Bot"] = Information["Bot"], ["Arguments"] = messageArguments})
                     else
                         if v["Aliases"] then
                             if typeof(v["Aliases"]) == "table" then
@@ -109,7 +109,7 @@ local function OnChatted(message, speaker)
                                     if command == a then
                                         table.remove(messageArguments, 1)
         
-                                        pcall(v["Callback"], {["Owner"] = Information["Owner"], ["Stand"] = Information["Stand"], ["Arguments"] = messageArguments})
+                                        pcall(v["Callback"], {["Owner"] = Information["Owner"], ["Bot"] = Information["Bot"], ["Arguments"] = messageArguments})
                                         break
                                     end
                                 end
@@ -176,8 +176,6 @@ function BotCreator:CreateCommand(Options)
                     Information["Commands"][Options["Command"]] = nil
                 end
             end
-
-            return options
         end 
     end
 end
@@ -185,21 +183,21 @@ end
 function BotCreator:CreateAction(Options)
     Options = Options or {}
 
-    if Options and typeof(Options) == "table" and Options["Action"] and typeof(Options["Action"]) == "string" then
-        if not Information["Loops"][Options["Action"]] then
+    if Options and typeof(Options) == "table" and Options["Loop"] and typeof(Options["Loop"]) == "string" then
+        if not Information["Loops"][Options["Loop"]] then
 
-            Information["Loops"][Options["Action"]] = game:GetService("RunService").RenderStepped:Connect(function(deltaTime)
-                if table.find(Information["Action"], Options["Action"]) then
-                    pcall(Options["Callback"], {["Owner"] = Information["Owner"], ["Stand"] = Information["Stand"]}) 
+            Information["Loops"][Options["Loop"]] = game:GetService("RunService").RenderStepped:Connect(function(deltaTime)
+                if table.find(Information["Action"], Options["Loop"]) then
+                    pcall(Options["Callback"], {["Owner"] = Information["Owner"], ["Bot"] = Information["StaBotnd"]}) 
                 end
             end)
 
             local options
         
             function options:Delete()
-                if Information["Loops"][Options["Action"]] then
-                    Information["Loops"][Options["Action"]]:Disconnect()
-                    Information["Loops"][Options["Action"]] = nil 
+                if Information["Loops"][Options["Loop"]] then
+                    Information["Loops"][Options["Loop"]]:Disconnect()
+                    Information["Loops"][Options["Loop"]] = nil 
                 end
             end
 
