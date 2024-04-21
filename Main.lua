@@ -8,7 +8,7 @@ local Information = {
     Action = getgenv().BC["Action"]
 }
 
-local ChatListener = loadstring(game:HttpGet("https://raw.githubusercontent.com/Crvstal8100/ChatListener/main/Main.lua", true))
+local ChatListener = loadstring(game:HttpGet("https://raw.githubusercontent.com/Crvstal8100/ChatListener/main/Main.lua", true))()
 
 local Players = game:GetService("Players")
 
@@ -121,6 +121,18 @@ local function OnChatted(message, speaker)
         end
     end
 end
+
+for i, v in pairs(Players:GetPlayers()) do
+    ChatListener:Listen(v, OnChatted)
+end
+
+Players.PlayerAdded:Connect(function(player)
+    ChatListener:Listen(player, OnChatted)
+end)
+
+Players.PlayerRemoving:Connect(function(player)
+    ChatListener:StopListening(player)
+end)
 
 function BotCreator:AddAction(Options)
     if not table.find(Information["Action"], Options["Action"]) then
