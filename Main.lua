@@ -188,7 +188,7 @@ function BotCreator:CreateAction(Options)
 
             Information["Loops"][Options["Loop"]] = game:GetService("RunService").RenderStepped:Connect(function(deltaTime)
                 if table.find(Information["Action"], Options["Loop"]) then
-                    pcall(Options["Callback"], {["Owner"] = Information["Owner"], ["Bot"] = Information["StaBotnd"]}) 
+                    pcall(Options["Callback"], {["Owner"] = Information["Owner"], ["Bot"] = Information["Bot"]}) 
                 end
             end)
 
